@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+    <% if (locals.user) { %> <a href="/profile"><img style="float: right; border-radius: 100%; border: 1px solid lime; width: 2.5rem;" src="<%= user.avatarURL %>" /></a> <% } %>
     <header class="container">
       <div class="text-center">
         <h1 class=""><a href="/profile">Binary Upload Boom</a></h1>

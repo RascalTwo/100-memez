@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+let app = express();
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
@@ -42,13 +42,18 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function addUserToViewLocals(request, response, next){
+  response.locals.user = request.user
+  next();
+})
 
 //Use flash messages for errors, info, ect...
 app.use(flash());
