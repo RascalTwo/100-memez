@@ -11,7 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "@rascal_two/express-handler-tracker": "github:RascalTwo/express-handler-tracker",
-    "bcrypt": "^5.0.1",
     "cloudinary": "^1.25.1",
     "connect-mongo": "^3.2.0",
     "date-fns": "^2.29.3",
