@@ -8,6 +8,7 @@
             <a href="/post/<%= posts[i]._id%>">
               <img class="img-fluid" src="<%= posts[i].url%>">
             </a>
+            <span><%= dateFns.formatDistance(posts[i].createdAt, new Date(), { addSuffix: true })%></span>
           </li>
         <% } %>
         </ul>

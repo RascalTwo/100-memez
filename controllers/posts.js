@@ -1,3 +1,5 @@
+const dateFns = require('date-fns');
+
 const Post = require("../models/Post");
 const User = require("../models/User");
 
@@ -16,7 +18,7 @@ module.exports = {
       const start = page * 10;
       const posts = (await Post.find().populate('owners')).sort((a, b) => b.createdAt - a.createdAt).slice(start, start + 10);
       const lastPage = Math.floor(await Post.count() / 10)
-      res.render("feed.ejs", { posts: posts, page, lastPage });
+      res.render("feed.ejs", { posts: posts, page, lastPage, dateFns });
     } catch (err) {
       console.log(err);
     }
