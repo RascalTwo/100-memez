@@ -8,7 +8,15 @@
             <a href="/post/<%= posts[i]._id%>">
               <img class="img-fluid" src="<%= posts[i].url%>">
             </a>
-            <span><%= dateFns.formatDistance(posts[i].createdAt, new Date(), { addSuffix: true })%></span>
+            <form
+              class="col-1"
+              action="/post/likePost/<%= posts[i].id %>?_method=PUT"
+              method="POST"
+            >
+              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+            </form>
+            <h3 class="col-6">Likes: <%= posts[i].likes %></h3>
+            <div><%= dateFns.formatDistance(posts[i].createdAt, new Date(), { addSuffix: true })%></div>
           </li>
         <% } %>
         </ul>
