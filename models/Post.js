@@ -6,10 +6,6 @@ const PostSchema = new mongoose.Schema({
   url: {
     type: String,
     required: true,
-  },
-  likes: {
-    type: Number,
-    required: true,
   }
 });
 PostSchema.virtual('createdAt').get(function() {
@@ -20,6 +16,12 @@ PostSchema.virtual('owners', {
   ref: 'User',
   localField: 'ownerId',
   foreignField: '_id'
+});
+PostSchema.virtual('likes', {
+  ref: 'Like',
+  localField: '_id',
+  foreignField: 'post',
+  count: true
 });
 
 
