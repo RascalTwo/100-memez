@@ -12,8 +12,11 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
-      const posts = (await Post.find().populate('owners')).sort((a, b) => b.createdAt - a.createdAt);
-      res.render("feed.ejs", { posts: posts });
+      const page = +req.query.page || 0;
+      const start = page * 10;
+      const posts = (await Post.find().populate('owners')).sort((a, b) => b.createdAt - a.createdAt).slice(start, start + 10);
+      const lastPage = Math.floor(await Post.count() / 10)
+      res.render("feed.ejs", { posts: posts, page, lastPage });
     } catch (err) {
       console.log(err);
     }

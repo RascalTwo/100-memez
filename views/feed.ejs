@@ -13,4 +13,18 @@
         </ul>
     </div>
   </div>  
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item <%= page === 0 ? 'disabled' : '' %>">
+        <a class="page-link" href="?page=<%= page - 1 %>" <%= page === 0 ? 'tabindex="-1"' : ''%>>Previous</a>
+      </li>
+      <% if (page - 1 >= 0) { %> <li class="page-item"><a class="page-link" href="?page=<%= page - 1 %>"><%= page - 1 %></a></li> <% } %>
+      <li class="page-item"><a class="page-link" href="?page=<%= page %>"><%= page %></a></li>
+      <li class="page-item"><a class="page-link" href="?page=<%= page + 1 %>"><%= page + 1 %></a></li>
+      <li class="page-item"><a class="page-link" href="?page=<%= lastPage %>"><%= lastPage %></a></li>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= page + 1 %>">Next</a>
+      </li>
+    </ul>
+  </nav>
 <%- include('partials/footer') -%>
