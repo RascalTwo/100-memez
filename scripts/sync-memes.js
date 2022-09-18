@@ -32,6 +32,8 @@ const User = require('../models/User');
 			if (!created.has(post.owner._id)) owners[post.owner._id] = post.owner;
 			post.ownerId = post.owner._id;
 			post.likes = 0;
+			const dateBits = Number(BigInt.asUintN(64, post._id) >> 22n);
+			post.createdAt = new Date(dateBits + 1420070400000);
 		}
 
 		posts.splice(0, posts.length, ...posts.filter(p => !created.has(p._id)))
@@ -45,6 +47,7 @@ const User = require('../models/User');
 				const dbPost = await Post.findById(post._id);
 				if (dbPost) {
 					dbPost.url = post.url;
+					dbPost.createdAt = post.createdAt;
 					await dbPost.save()
 				} else {
 					await Post.create(post)
@@ -72,7 +75,7 @@ const User = require('../models/User');
 		console.log(posts.length, Object.keys(owners).length, top);
 		if (!top) break;
 		await page.evaluate(() => document.querySelector('[id^="chat-messages"]').parentNode.parentNode.parentNode.scrollTop = 0);
-		await new Promise(resolve => setTimeout(resolve, 2500));
+		await new Promise(resolve => setTimeout(resolve, 5000));
 	}
 
 	await browser.close();

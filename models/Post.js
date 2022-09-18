@@ -7,11 +7,7 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   }
-});
-PostSchema.virtual('createdAt').get(function() {
-  const dateBits = Number(BigInt.asUintN(64, this._id) >> 22n);
-  return new Date(dateBits + 1420070400000);
-});
+}, { timestamps: { createdAt: true }});
 PostSchema.virtual('owners', {
   ref: 'User',
   localField: 'ownerId',

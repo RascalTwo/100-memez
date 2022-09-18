@@ -22,6 +22,9 @@ function shuffle(array) {
   return array;
 }
 
+function randomIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -34,15 +37,17 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
+      const lastPage = Math.floor(await Post.count() / 10)
+
       const sortBy = req.query.sort || 'createdAt'
       const page = +req.query.page || 0;
       const start = page * 10;
-      const allPosts = await Post.find().populate(['owners', 'likes'])
-      const posts = (sortBy === 'random'
-        ? shuffle(allPosts)
-        : allPosts.sort((a, b) => b[sortBy] - a[sortBy])
-      ).slice(start, start + 10);
-      const lastPage = Math.floor(await Post.count() / 10)
+      let posts = [];
+      if (sortBy === 'random'){
+        posts = await Post.find().populate(['owners', 'likes']).skip(randomIntFromInterval(0, (lastPage - 1) * 10)).limit(10)
+      } else {
+        posts = await Post.find().populate(['owners', 'likes']).sort({ [sortBy]: 'desc' }).skip(start).limit(10);
+      }
       res.render("feed.ejs", { posts: posts, page, lastPage, dateFns });
     } catch (err) {
       console.log(err);
