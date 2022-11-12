@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../config/.env" });
+require("dotenv").config({ path: "./config/.env" });
 const { chromium } = require('playwright');
 const connectDB = require('../config/database');
 const Post = require('../models/Post');
@@ -18,7 +18,7 @@ const User = require('../models/User');
 	const owners = {};
 
 	while (true) {
-		posts.push(...await page.evaluate(() => [...document.querySelectorAll('[id^="chat-messages"]')].map(li => li.__reactProps$.children.props?.childrenMessageContent.props.message).filter(m => m && (m.attachments.some(att => att.content_type?.startsWith('image')) || m.embeds.some(e => e.type.startsWith('image')))).map(m => ({
+		posts.push(...await page.evaluate(() => [...document.querySelectorAll('[id^="chat-messages"]')].map(li => li.__reactProps$.children[1].props?.childrenMessageContent.props.message).filter(m => m && (m.attachments.some(att => att.content_type?.startsWith('image')) || m.embeds.some(e => e.type.startsWith('image')))).map(m => ({
 			_id: m.id.toString(),
 			url: m.attachments.find(a => a.content_type.startsWith('image'))?.url || m.embeds.find(e => e.type.startsWith('image')).url,
 			owner: {
