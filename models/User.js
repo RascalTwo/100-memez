@@ -18,7 +18,7 @@ UserSchema.virtual('avatarURL').get(function() {
   return 'https://cdn.discordapp.com/' + (
     this.avatar
       ? ['', `${this._id}/${this.avatar}.webp`]
-      : ['embed/',  `avatars/${(+this.displayName.split('#').at(-1)) % 5}.png`]
+      : ['embed/',  `avatars/${(+this.displayName.split('#').slice(0, -1)[0]) % 5}.png`]
   ).join('avatars/');
 });
 
